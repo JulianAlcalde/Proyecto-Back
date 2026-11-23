@@ -1,0 +1,24 @@
+server:
+  port: ${SERVER_PORT:8081}
+spring:
+  application:
+    name: technician-service
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/technicians_db}
+    username: ${DATABASE_USER:tpi}
+    password: ${DATABASE_PASSWORD:tpi}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8180/realms/tpi}
+          jwk-set-uri: ${KEYCLOAK_JWK_SET_URI:http://localhost:8180/realms/tpi/protocol/openid-connect/certs}
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+management:
+  endpoints.web.exposure.include: health,info

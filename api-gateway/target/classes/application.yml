@@ -1,0 +1,44 @@
+server:
+  port: ${SERVER_PORT:8080}
+spring:
+  application:
+    name: api-gateway
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8180/realms/tpi}
+          jwk-set-uri: ${KEYCLOAK_JWK_SET_URI:http://localhost:8180/realms/tpi/protocol/openid-connect/certs}
+  cloud:
+    gateway:
+      routes:
+        - id: technicians
+          uri: ${TECHNICIAN_SERVICE_URL:http://localhost:8081}
+          predicates:
+            - Path=/api/technicians/**
+        - id: work-orders
+          uri: ${WORK_ORDER_SERVICE_URL:http://localhost:8082}
+          predicates:
+            - Path=/api/work-orders/**
+        - id: technician-docs
+          uri: ${TECHNICIAN_SERVICE_URL:http://localhost:8081}
+          predicates:
+            - Path=/technician-docs/**
+          filters:
+            - StripPrefix=1
+        - id: work-order-docs
+          uri: ${WORK_ORDER_SERVICE_URL:http://localhost:8082}
+          predicates:
+            - Path=/work-order-docs/**
+          filters:
+            - StripPrefix=1
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - name: Órdenes de trabajo
+        url: /work-order-docs/v3/api-docs
+      - name: Técnicos y agenda
+        url: /technician-docs/v3/api-docs
+management:
+  endpoints.web.exposure.include: health,info,gateway

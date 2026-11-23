@@ -1,0 +1,75 @@
+{
+  "realm": "tpi",
+  "enabled": true,
+  "displayName": "TPI Servicios Domiciliarios",
+  "roles": {
+    "realm": [
+      { "name": "CUSTOMER", "description": "Solicita y cancela sus órdenes" },
+      { "name": "TECHNICIAN", "description": "Inicia y finaliza órdenes asignadas" },
+      { "name": "DISPATCHER", "description": "Administra técnicos y reasigna órdenes" },
+      { "name": "ADMIN", "description": "Administración integral" }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "tpi-api",
+      "name": "Cliente de pruebas del TPI",
+      "enabled": true,
+      "publicClient": true,
+      "directAccessGrantsEnabled": true,
+      "standardFlowEnabled": true,
+      "redirectUris": ["http://localhost:*/*"],
+      "webOrigins": ["http://localhost:8080"]
+    },
+    {
+      "clientId": "work-order-service",
+      "name": "Cuenta de servicio de órdenes",
+      "enabled": true,
+      "publicClient": false,
+      "secret": "work-order-secret",
+      "serviceAccountsEnabled": true,
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": false
+    }
+  ],
+  "users": [
+    {
+      "id": "11111111-1111-1111-1111-111111111111",
+      "username": "admin",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [{"type": "password", "value": "admin123", "temporary": false}],
+      "realmRoles": ["ADMIN", "DISPATCHER"]
+    },
+    {
+      "id": "22222222-2222-2222-2222-222222222222",
+      "username": "despachador",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [{"type": "password", "value": "despachador123", "temporary": false}],
+      "realmRoles": ["DISPATCHER"]
+    },
+    {
+      "id": "33333333-3333-3333-3333-333333333333",
+      "username": "cliente",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [{"type": "password", "value": "cliente123", "temporary": false}],
+      "realmRoles": ["CUSTOMER"]
+    },
+    {
+      "id": "44444444-4444-4444-4444-444444444444",
+      "username": "tecnico",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [{"type": "password", "value": "tecnico123", "temporary": false}],
+      "realmRoles": ["TECHNICIAN"]
+    },
+    {
+      "username": "service-account-work-order-service",
+      "serviceAccountClientId": "work-order-service",
+      "enabled": true,
+      "realmRoles": ["DISPATCHER"]
+    }
+  ]
+}

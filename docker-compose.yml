@@ -1,0 +1,92 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: tpi
+      POSTGRES_PASSWORD: tpi
+      POSTGRES_DB: postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./docker/postgres/init-databases.sql:/docker-entrypoint-initdb.d/01-databases.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tpi -d postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.1.2
+    command: start-dev --import-realm
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_HTTP_PORT: 8080
+      KC_HOSTNAME_STRICT: "false"
+    ports:
+      - "8180:8080"
+    volumes:
+      - ./keycloak/tpi-realm.json:/opt/keycloak/data/import/tpi-realm.json:ro
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/keycloak/bin/kc.sh show-config >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+
+  technician-service:
+    build:
+      context: .
+      dockerfile: docker/technician.Dockerfile
+    environment:
+      DATABASE_URL: jdbc:postgresql://postgres:5432/technicians_db
+      DATABASE_USER: tpi
+      DATABASE_PASSWORD: tpi
+      KEYCLOAK_ISSUER_URI: http://localhost:8180/realms/tpi
+      KEYCLOAK_JWK_SET_URI: http://keycloak:8080/realms/tpi/protocol/openid-connect/certs
+    depends_on:
+      postgres:
+        condition: service_healthy
+      keycloak:
+        condition: service_healthy
+
+  work-order-service:
+    build:
+      context: .
+      dockerfile: docker/work-order.Dockerfile
+    environment:
+      DATABASE_URL: jdbc:postgresql://postgres:5432/orders_db
+      DATABASE_USER: tpi
+      DATABASE_PASSWORD: tpi
+      TECHNICIAN_SERVICE_URL: http://technician-service:8081
+      OSRM_BASE_URL: https://router.project-osrm.org
+      KEYCLOAK_ISSUER_URI: http://localhost:8180/realms/tpi
+      KEYCLOAK_JWK_SET_URI: http://keycloak:8080/realms/tpi/protocol/openid-connect/certs
+      KEYCLOAK_TOKEN_URI: http://keycloak:8080/realms/tpi/protocol/openid-connect/token
+      KEYCLOAK_CLIENT_ID: work-order-service
+      KEYCLOAK_CLIENT_SECRET: work-order-secret
+    depends_on:
+      postgres:
+        condition: service_healthy
+      keycloak:
+        condition: service_healthy
+      technician-service:
+        condition: service_started
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: docker/gateway.Dockerfile
+    environment:
+      TECHNICIAN_SERVICE_URL: http://technician-service:8081
+      WORK_ORDER_SERVICE_URL: http://work-order-service:8082
+      KEYCLOAK_ISSUER_URI: http://localhost:8180/realms/tpi
+      KEYCLOAK_JWK_SET_URI: http://keycloak:8080/realms/tpi/protocol/openid-connect/certs
+    ports:
+      - "8080:8080"
+    depends_on:
+      technician-service:
+        condition: service_started
+      work-order-service:
+        condition: service_started
+
+volumes:
+  postgres-data:

@@ -1,0 +1,4 @@
+ar\edu\utn\tpi\shared\error\GlobalExceptionHandler.class
+ar\edu\utn\tpi\shared\error\ApiError.class
+ar\edu\utn\tpi\shared\security\KeycloakRolesConverter.class
+ar\edu\utn\tpi\shared\error\DomainException.class

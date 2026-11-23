@@ -1,0 +1,33 @@
+server:
+  port: ${SERVER_PORT:8082}
+spring:
+  application:
+    name: work-order-service
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/orders_db}
+    username: ${DATABASE_USER:tpi}
+    password: ${DATABASE_PASSWORD:tpi}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8180/realms/tpi}
+          jwk-set-uri: ${KEYCLOAK_JWK_SET_URI:http://localhost:8180/realms/tpi/protocol/openid-connect/certs}
+clients:
+  technician:
+    base-url: ${TECHNICIAN_SERVICE_URL:http://localhost:8081}
+  osrm:
+    base-url: ${OSRM_BASE_URL:https://router.project-osrm.org}
+keycloak:
+  token-uri: ${KEYCLOAK_TOKEN_URI:http://localhost:8180/realms/tpi/protocol/openid-connect/token}
+  client-id: ${KEYCLOAK_CLIENT_ID:work-order-service}
+  client-secret: ${KEYCLOAK_CLIENT_SECRET:work-order-secret}
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+management:
+  endpoints.web.exposure.include: health,info

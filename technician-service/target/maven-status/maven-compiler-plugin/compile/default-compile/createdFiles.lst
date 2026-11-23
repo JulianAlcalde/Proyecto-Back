@@ -1,0 +1,17 @@
+ar\edu\utn\tpi\technicians\service\TechnicianManagementService.class
+ar\edu\utn\tpi\technicians\TechnicianServiceApplication.class
+ar\edu\utn\tpi\technicians\domain\ReservationStatus.class
+ar\edu\utn\tpi\technicians\repository\ReservationRepository.class
+ar\edu\utn\tpi\technicians\config\SecurityConfig.class
+ar\edu\utn\tpi\technicians\domain\Technician.class
+ar\edu\utn\tpi\technicians\api\TechnicianDtos$ReservationResponse.class
+ar\edu\utn\tpi\technicians\api\TechnicianDtos$TechnicianResponse.class
+ar\edu\utn\tpi\technicians\domain\TechnicianReservation.class
+ar\edu\utn\tpi\technicians\api\TechnicianDtos$CandidateSearchRequest.class
+ar\edu\utn\tpi\technicians\repository\TechnicianRepository.class
+ar\edu\utn\tpi\technicians\api\TechnicianDtos.class
+ar\edu\utn\tpi\technicians\api\TechnicianDtos$CreateTechnicianRequest.class
+ar\edu\utn\tpi\technicians\api\TechnicianController.class
+ar\edu\utn\tpi\technicians\domain\ServiceType.class
+ar\edu\utn\tpi\technicians\api\TechnicianDtos$ReserveRequest.class
+ar\edu\utn\tpi\technicians\api\TechnicianDtos$CandidateResponse.class

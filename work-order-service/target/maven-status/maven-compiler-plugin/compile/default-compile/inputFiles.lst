@@ -1,0 +1,13 @@
+C:\Users\Julian\Desktop\Proyecto Back\work-order-service\src\main\java\ar\edu\utn\tpi\orders\api\WorkOrderController.java
+C:\Users\Julian\Desktop\Proyecto Back\work-order-service\src\main\java\ar\edu\utn\tpi\orders\api\WorkOrderDtos.java
+C:\Users\Julian\Desktop\Proyecto Back\work-order-service\src\main\java\ar\edu\utn\tpi\orders\client\KeycloakTokenClient.java
+C:\Users\Julian\Desktop\Proyecto Back\work-order-service\src\main\java\ar\edu\utn\tpi\orders\client\OsrmRoutingClient.java
+C:\Users\Julian\Desktop\Proyecto Back\work-order-service\src\main\java\ar\edu\utn\tpi\orders\client\TechnicianClient.java
+C:\Users\Julian\Desktop\Proyecto Back\work-order-service\src\main\java\ar\edu\utn\tpi\orders\config\SecurityConfig.java
+C:\Users\Julian\Desktop\Proyecto Back\work-order-service\src\main\java\ar\edu\utn\tpi\orders\domain\ServiceType.java
+C:\Users\Julian\Desktop\Proyecto Back\work-order-service\src\main\java\ar\edu\utn\tpi\orders\domain\WorkOrder.java
+C:\Users\Julian\Desktop\Proyecto Back\work-order-service\src\main\java\ar\edu\utn\tpi\orders\domain\WorkOrderStatus.java
+C:\Users\Julian\Desktop\Proyecto Back\work-order-service\src\main\java\ar\edu\utn\tpi\orders\repository\WorkOrderRepository.java
+C:\Users\Julian\Desktop\Proyecto Back\work-order-service\src\main\java\ar\edu\utn\tpi\orders\service\AssignmentService.java
+C:\Users\Julian\Desktop\Proyecto Back\work-order-service\src\main\java\ar\edu\utn\tpi\orders\service\WorkOrderManagementService.java
+C:\Users\Julian\Desktop\Proyecto Back\work-order-service\src\main\java\ar\edu\utn\tpi\orders\WorkOrderServiceApplication.java
