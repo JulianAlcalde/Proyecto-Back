@@ -1,0 +1,19 @@
+$kind: http-request
+url: "{{gateway}}/api/work-orders"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "serviceType": "PLOMERIA",
+      "description": "Pérdida de agua debajo de la mesada",
+      "address": "Nueva Córdoba, Córdoba",
+      "latitude": -31.4286,
+      "longitude": -64.1842,
+      "requestedStart": "2027-06-20T10:00:00",
+      "durationMinutes": 60
+    }
+order: 2000

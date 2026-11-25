@@ -1,0 +1,18 @@
+$kind: http-request
+url: "{{gateway}}/api/technicians"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "fullName": "María Gómez",
+      "keycloakUserId": "44444444-4444-4444-4444-444444444444",
+      "skills": ["PLOMERIA"],
+      "certificationValidUntil": "2027-12-31",
+      "latitude": -31.4201,
+      "longitude": -64.1888
+    }
+order: 1000

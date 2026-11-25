@@ -11,8 +11,8 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 public class SecurityConfig {
     @Bean SecurityWebFilterChain security(ServerHttpSecurity http) {
         return http.csrf(ServerHttpSecurity.CsrfSpec::disable)
-            .authorizeExchange(auth -> auth.pathMatchers("/actuator/health", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/technician-docs/**", "/work-order-docs/**").permitAll()
-                .pathMatchers("/api/technicians/**").hasAnyRole("DISPATCHER", "ADMIN").anyExchange().authenticated())
+            .authorizeExchange(auth -> auth.pathMatchers("/actuator/health", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/technician-docs/**", "/work-order-docs/**", "/webjars/**").permitAll() //Agregué "/webjars/**"
+                .pathMatchers("/api/technicians/**").hasAnyRole("DISPATCHER", "ADMIN").anyExchange().authenticated()) 
             .oauth2ResourceServer(oauth -> oauth.jwt(jwt -> jwt.jwtAuthenticationConverter(new ReactiveJwtAuthenticationConverterAdapter(new KeycloakRolesConverter())))).build();
     }
 }

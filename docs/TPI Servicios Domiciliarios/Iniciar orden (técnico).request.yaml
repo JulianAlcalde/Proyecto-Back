@@ -1,0 +1,6 @@
+$kind: http-request
+url: "{{gateway}}/api/work-orders/{{workOrderId}}/start"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+order: 3000

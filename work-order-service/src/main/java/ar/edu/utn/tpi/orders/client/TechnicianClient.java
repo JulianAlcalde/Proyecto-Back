@@ -29,5 +29,6 @@ public class TechnicianClient {
     public record Candidate(Long id, String fullName, double latitude, double longitude) { }
     private record CandidateSearch(ServiceType serviceType, LocalDateTime startsAt, int durationMinutes) { }
     private record Reserve(Long workOrderId, LocalDateTime startsAt, int durationMinutes) { }
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
     public record TechnicianIdentity(Long id) { }
 }
