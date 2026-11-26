@@ -1,0 +1,175 @@
+{
+  "info": {
+    "name": "TPI Demo",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "b6e1c5d0-7d8e-4a2b-9c02-fd9e3c2b4a11",
+    "description": "Colección Postman generada automáticamente para probar el backend de microservicios TPI. Usa las variables de entorno `baseUrl`, `kcUrl`, `clientId`, `username`, `password` y `token`.",
+    "version": "1.0.0"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080", "type": "string" },
+    { "key": "kcUrl", "value": "http://localhost:8180/realms/tpi/protocol/openid-connect/token", "type": "string" },
+    { "key": "clientId", "value": "tpi-api", "type": "string" },
+    { "key": "username", "value": "admin", "type": "string" },
+    { "key": "password", "value": "admin123", "type": "string" },
+    { "key": "token", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Obtener Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/x-www-form-urlencoded" }
+            ],
+            "url": { "raw": "{{kcUrl}}", "host": ["{{kcUrl}}"] },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                { "key": "client_id", "value": "{{clientId}}" },
+                { "key": "grant_type", "value": "password" },
+                { "key": "username", "value": "{{username}}" },
+                { "key": "password", "value": "{{password}}" }
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var json = pm.response.json();",
+                  "pm.environment.set('token', json.access_token);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Technician Service",
+      "item": [
+        {
+          "name": "Health",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/technician-service/actuator/health", "host": ["{{baseUrl}}"], "path": ["technician-service", "actuator", "health"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear Técnico",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/technicians", "host": ["{{baseUrl}}"], "path": ["api", "technicians"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"María Gómez\",\n  \"keycloakUserId\": \"44444444-4444-4444-4444-444444444444\",\n  \"skills\": [\"PLOMERIA\"],\n  \"certificationValidUntil\": \"2027-12-31\",\n  \"latitude\": -31.4201,\n  \"longitude\": -64.1888\n}"
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Work Order Service",
+      "item": [
+        {
+          "name": "Health",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/work-order-service/actuator/health", "host": ["{{baseUrl}}"], "path": ["work-order-service", "actuator", "health"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear Orden",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/work-orders", "host": ["{{baseUrl}}"], "path": ["api", "work-orders"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"serviceType\": \"PLOMERIA\",\n  \"description\": \"Pérdida de agua debajo de la mesada\",\n  \"address\": \"Nueva Córdoba, Córdoba\",\n  \"latitude\": -31.4286,\n  \"longitude\": -64.1842,\n  \"requestedStart\": \"2027-06-20T10:00:00\",\n  \"durationMinutes\": 60\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener Orden (by id)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/work-orders/{{orderId}}", "host": ["{{baseUrl}}"], "path": ["api", "work-orders", "{{orderId}}"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Iniciar Orden",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/work-orders/{{orderId}}/start", "host": ["{{baseUrl}}"], "path": ["api", "work-orders", "{{orderId}}", "start"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Completar Orden",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/work-orders/{{orderId}}/complete", "host": ["{{baseUrl}}"], "path": ["api", "work-orders", "{{orderId}}", "complete"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Cancelar Orden",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/work-orders/{{orderId}}/cancel", "host": ["{{baseUrl}}"], "path": ["api", "work-orders", "{{orderId}}", "cancel"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Reintentar Asignación (despachador)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/work-orders/{{orderId}}/assign", "host": ["{{baseUrl}}"], "path": ["api", "work-orders", "{{orderId}}", "assign"] }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
